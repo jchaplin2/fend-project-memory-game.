@@ -23,6 +23,7 @@ let CardGame = function(){
 	];
 	let firstCard = null;
 	let secondCard = null;
+	let numOfMoves = 0;
 	
 	/*
 	 * Create a list that holds all of your cards
@@ -95,9 +96,12 @@ let CardGame = function(){
 				checkMatch(secondCard, firstCard);			
 			}, 500);
 		}
+		numOfMoves++;
+		let movesDisplay = window.document.getElementById("moves-counter");
+		movesDisplay.innerText = numOfMoves;
 	};
 
-	function checkMatch(currClickedCard, prevClickedCard) {
+	let checkMatch = function(currClickedCard, prevClickedCard) {
 		var cardClass = currClickedCard.children[0].className;
 		var prevCardClass = prevClickedCard.children[0].className;
 		if(cardClass === prevCardClass) {
