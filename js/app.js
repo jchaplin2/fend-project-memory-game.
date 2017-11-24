@@ -1,29 +1,89 @@
-/*
- * Create a list that holds all of your cards
- */
+let Card = function(cssClass, x, y) {
+	this.cardClass = cssClass;
+	this.xPos = x;
+	this.yPos = y;
+};
 
+let CardGame = function(){
+	let cardPositions = [
+		[0,0], [0,1], [0,2], [0,3],
+		[1,0], [1,1], [1,2], [1,3],
+		[2,0], [2,1], [2,2], [2,3],
+		[3,0], [3,1], [3,2], [3,3],
+	];
+	
+	let listOfCardTypes = [
+		"fa fa-diamond",
+		"fa fa-paper-plane-o",
+		"fa fa-anchor",
+		"fa fa-bolt",
+		"fa fa-cube",
+		"fa fa-leaf",
+		"fa fa-bicycle",
+		"fa fa-bomb"
+	];
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+	/*
+	 * Create a list that holds all of your cards
+	 */
+	
+	let arrayOfCards = new Array(new Array(), new Array(), new Array(), new Array());
 
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+	/*
+	 * Display the cards on the page
+	 *   - shuffle the list of cards using the provided "shuffle" method below
+	 *   - loop through each card and create its HTML
+	 *   - add each card's HTML to the page
+	 */
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
+	// Shuffle function from http://stackoverflow.com/a/2450976
+	let shuffle = function (array) {
+		let currentIndex = array.length, temporaryValue, randomIndex;
 
-    return array;
-}
+		while (currentIndex !== 0) {
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+			temporaryValue = array[currentIndex];
+			array[currentIndex] = array[randomIndex];
+			array[randomIndex] = temporaryValue;
+		}
+
+		return array;
+	};
+
+	let initArrayOfCards = function(cardPositions) {
+		for(let i=0, len=listOfCardTypes.length; i<len; i++) {
+			let cardType = listOfCardTypes.pop();
+			for(let j=0, numOfCards=2; j<numOfCards; j++) {
+				let currCardPos = cardPositions.pop();
+				let xPos = currCardPos[0];
+				let yPos = currCardPos[1];
+				let currCard = new Card(cardType, xPos, yPos);
+				arrayOfCards[xPos].push(currCard);
+			}
+		}
+	};
+	
+	let displayCards = function() {
+		let cardHTML = "";
+		for(let i=0, len=arrayOfCards.length; i < len; i++) {
+			let rowOfCards = arrayOfCards[i];
+			for(let j=0, len=rowOfCards.length; j < len; j++) {
+				let cssClass = rowOfCards[j].cardClass;
+				cardHTML += `<li class="card"><i class="${cssClass}"></i></li>`;
+			}
+		}
+		var cardList = window.document.getElementById("cardList");
+		cardList.innerHTML = cardHTML;
+	};
+	
+	var shuffledCardPositions = shuffle(cardPositions);
+	initArrayOfCards(shuffledCardPositions);
+	displayCards();
+};
+
+let cardGm = new CardGame();
+ 
 
 
 /*
