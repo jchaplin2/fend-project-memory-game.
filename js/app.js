@@ -73,11 +73,19 @@ let CardGame = function(){
 				cardHTML += `<li class="card"><i class="${cssClass}"></i></li>`;
 			}
 		}
-		var cardList = window.document.getElementById("cardList");
+		let cardList = window.document.getElementById("cardList");
 		cardList.innerHTML = cardHTML;
+		
+		let cardArray = window.document.getElementsByTagName("li");
+		for(let k=0, len=cardArray.length; k<len; k++) {
+			let card = cardArray[k];
+			card.addEventListener('click', function(){
+				this.classList.add("match");
+			}, false);
+		}
 	};
 	
-	var shuffledCardPositions = shuffle(cardPositions);
+	let shuffledCardPositions = shuffle(cardPositions);
 	initArrayOfCards(shuffledCardPositions);
 	displayCards();
 };
