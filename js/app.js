@@ -11,7 +11,6 @@ let CardGame = function(){
 		[2,0], [2,1], [2,2], [2,3],
 		[3,0], [3,1], [3,2], [3,3],
 	];
-	
 	let listOfCardTypes = [
 		"fa fa-diamond",
 		"fa fa-paper-plane-o",
@@ -22,7 +21,9 @@ let CardGame = function(){
 		"fa fa-bicycle",
 		"fa fa-bomb"
 	];
-
+	let firstCard = null;
+	let secondCard = null;
+	
 	/*
 	 * Create a list that holds all of your cards
 	 */
@@ -79,11 +80,36 @@ let CardGame = function(){
 		let cardArray = window.document.getElementsByTagName("li");
 		for(let k=0, len=cardArray.length; k<len; k++) {
 			let card = cardArray[k];
-			card.addEventListener('click', function(){
-				this.classList.add("match");
-			}, false);
+			card.addEventListener('click', clickCard, false);
 		}
 	};
+	
+	let clickCard = function() {
+		let cardItem = this;
+		cardItem.classList.add("show");
+		if(firstCard === null){
+			firstCard = cardItem;
+		} else {
+			secondCard = cardItem;
+			window.setTimeout(function(){
+				checkMatch(secondCard, firstCard);			
+			}, 500);
+		}
+	};
+
+	function checkMatch(currClickedCard, prevClickedCard) {
+		var cardClass = currClickedCard.children[0].className;
+		var prevCardClass = prevClickedCard.children[0].className;
+		if(cardClass === prevCardClass) {
+			currClickedCard.classList.add("match");
+		} else {
+			prevClickedCard.classList.remove("show");
+			currClickedCard.classList.remove("show");
+		}
+		
+		firstCard = null;
+		secondCard = null;
+	}
 	
 	let shuffledCardPositions = shuffle(cardPositions);
 	initArrayOfCards(shuffledCardPositions);
@@ -91,8 +117,6 @@ let CardGame = function(){
 };
 
 let cardGm = new CardGame();
- 
-
 
 /*
  * set up the event listener for a card. If a card is clicked:

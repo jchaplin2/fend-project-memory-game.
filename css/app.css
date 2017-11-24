@@ -71,11 +71,7 @@ h1 {
     cursor: default;
 }
 
-.deck .card.show {
-    font-size: 33px;
-}
-
-.deck .card.match {
+.deck .card.match, .deck .card.show {
     cursor: default;
     background: #02ccba;
     font-size: 33px;
