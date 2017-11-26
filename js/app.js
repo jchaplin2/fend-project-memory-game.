@@ -23,8 +23,9 @@ let CardGame = function(){
 	];
 	let firstCard = null;
 	let secondCard = null;
-	let numOfMoves = 0;
-	
+	let numOfMoves = -1;
+	let starRating = 5;
+
 	/*
 	 * Create a list that holds all of your cards
 	 */
@@ -95,10 +96,39 @@ let CardGame = function(){
 			window.setTimeout(function(){
 				checkMatch(secondCard, firstCard);			
 			}, 500);
+			updateMoves();
+			//make every pair of clicks a move.
 		}
+
+		updateRating();
+	};
+	
+	let updateMoves = function() {
 		numOfMoves++;
 		let movesDisplay = window.document.getElementById("moves-counter");
-		movesDisplay.innerText = numOfMoves;
+		movesDisplay.innerText = numOfMoves;	
+	};
+	
+	let updateRating = function() {
+		if(numOfMoves <= 20)
+			starRating = 5;
+		else if((numOfMoves > 20) && (numOfMoves <= 30))
+			starRating = 4;
+		else if((numOfMoves > 30) && (numOfMoves <= 40))
+			starRating = 3;
+		else if((numOfMoves > 40) && (numOfMoves <= 50))
+			starRating = 2;			
+		else if((numOfMoves > 50) && (numOfMoves <= 60))
+			starRating = 1;
+		else
+			starRating = 0;
+			
+		let ratingHTML = "";
+		for(let i=0; i<starRating; i++) {
+			ratingHTML += "<li><i class='fa fa-star'></i></li>";		
+		}
+		let ratingDisplay = window.document.getElementById("rating-display");
+		ratingDisplay.innerHTML = ratingHTML;
 	};
 
 	let checkMatch = function(currClickedCard, prevClickedCard) {
@@ -118,6 +148,8 @@ let CardGame = function(){
 	let shuffledCardPositions = shuffle(cardPositions);
 	initArrayOfCards(shuffledCardPositions);
 	displayCards();
+	updateMoves();
+	updateRating();
 };
 
 let cardGm = new CardGame();
