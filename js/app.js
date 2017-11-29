@@ -4,13 +4,18 @@ let Card = function(cssClass, x, y) {
 	this.yPos = y;
 };
 
-let CardGame = function(){
+let CardGame = function() {
+	let self = this;
+	
+	//all possible card positions, 16 in all.
 	let cardPositions = [
 		[0,0], [0,1], [0,2], [0,3],
 		[1,0], [1,1], [1,2], [1,3],
 		[2,0], [2,1], [2,2], [2,3],
 		[3,0], [3,1], [3,2], [3,3],
 	];
+	
+	//types of cards to be matched, 8 in all.
 	let listOfCardTypes = [
 		"fa fa-diamond",
 		"fa fa-paper-plane-o",
@@ -21,8 +26,13 @@ let CardGame = function(){
 		"fa fa-bicycle",
 		"fa fa-bomb"
 	];
+	
+	//first card selected.
 	let firstCard = null;
+	
+	//second card selected.
 	let secondCard = null;
+	
 	let numOfMoves = -1;
 	let starRating = 5;
 
@@ -54,6 +64,13 @@ let CardGame = function(){
 		return array;
 	};
 
+	/*
+	 * initialize card array with shuffled cards
+	 *   - pop a card from the list of types.
+	 *   - pop 2 positions from the list of available positions, init 2 cards.
+	 *   - push into array of cards.
+	 */
+
 	let initArrayOfCards = function(cardPositions) {
 		for(let i=0, len=listOfCardTypes.length; i<len; i++) {
 			let cardType = listOfCardTypes.pop();
@@ -66,6 +83,10 @@ let CardGame = function(){
 			}
 		}
 	};
+
+	/*
+	 * creates the html display for the cards.
+	 */
 	
 	let displayCards = function() {
 		let cardHTML = "";
@@ -102,6 +123,42 @@ let CardGame = function(){
 
 		updateRating();
 	};
+
+		let checkMatch = function(currClickedCard, prevClickedCard) {
+		let cardClass = currClickedCard.children[0].className;
+		let prevCardClass = prevClickedCard.children[0].className;
+
+		prevClickedCard.classList.remove("show");
+		currClickedCard.classList.remove("show");		
+		
+		if(cardClass === prevCardClass) {
+			prevClickedCard.classList.add("match");
+			currClickedCard.classList.add("match");
+		}
+
+		checkForWin();
+		
+		firstCard = null;
+		secondCard = null;
+	};
+	
+	let checkForWin = function() {
+		var numberOfMatchedCards = window.document.getElementsByClassName("match").length;
+		if(numberOfMatchedCards === 16)
+			displayWinScreen();
+	};
+	
+	let displayWinScreen = function(){
+		let victoryScreen = window.document.getElementById("overlay");
+		victoryScreen.style.display = "block";
+		let victoryTemplate = `<h1 class="winnerHeader"> Congratulations! You Won! </h1> <div class="winnerMessage">With ${numOfMoves} moves and ${starRating} stars Woohoo! </div> <button class="playAgainButton" onClick="cardGm.reset()"> Play again! </button>`;
+		victoryScreen.innerHTML = victoryTemplate;	
+	};
+	
+	this.hideWinScreen = function(){
+		let victoryScreen = window.document.getElementById("overlay");
+		victoryScreen.style.display = "none";	
+	};
 	
 	let updateMoves = function() {
 		numOfMoves++;
@@ -131,25 +188,22 @@ let CardGame = function(){
 		ratingDisplay.innerHTML = ratingHTML;
 	};
 
-	let checkMatch = function(currClickedCard, prevClickedCard) {
-		var cardClass = currClickedCard.children[0].className;
-		var prevCardClass = prevClickedCard.children[0].className;
-		if(cardClass === prevCardClass) {
-			currClickedCard.classList.add("match");
-		} else {
-			prevClickedCard.classList.remove("show");
-			currClickedCard.classList.remove("show");
-		}
-		
-		firstCard = null;
-		secondCard = null;
-	}
+	this.reset = function(){
+		initialize();
+		self.hideWinScreen();
+	};
 	
-	let shuffledCardPositions = shuffle(cardPositions);
-	initArrayOfCards(shuffledCardPositions);
-	displayCards();
-	updateMoves();
-	updateRating();
+	let initialize = function(){
+		numOfMoves = -1;
+		starRating = 5;
+		let shuffledCardPositions = shuffle(cardPositions);
+		initArrayOfCards(shuffledCardPositions);
+		displayCards();
+		updateMoves();
+		updateRating();	
+	};
+	
+	initialize();
 };
 
 let cardGm = new CardGame();
