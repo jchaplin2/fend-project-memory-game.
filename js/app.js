@@ -32,7 +32,6 @@ let CardGame = function() {
 	
 	//second card selected.
 	let secondCard = null;
-	
 	let numOfMoves = -1;
 	let starRating = 5;
 
@@ -64,13 +63,6 @@ let CardGame = function() {
 		return array;
 	};
 
-	/*
-	 * initialize card array with shuffled cards
-	 *   - pop a card from the list of types.
-	 *   - pop 2 positions from the list of available positions, init 2 cards.
-	 *   - push into array of cards.
-	 */
-
 	let initArrayOfCards = function(cardPositions) {
 		for(let i=0, len=listOfCardTypes.length; i<len; i++) {
 			let cardType = listOfCardTypes.pop();
@@ -83,10 +75,6 @@ let CardGame = function() {
 			}
 		}
 	};
-
-	/*
-	 * creates the html display for the cards.
-	 */
 	
 	let displayCards = function() {
 		let cardHTML = "";
