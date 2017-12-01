@@ -176,6 +176,31 @@ let CardGame = function() {
 		ratingDisplay.innerHTML = ratingHTML;
 	};
 
+	let currentTimeInSeconds = 0;
+
+	let updateClock = function() {
+	  currentTimeInSeconds++;
+
+	  let seconds = currentTimeInSeconds % 60;
+	  if(seconds < 10)
+		seconds = "0" + seconds;
+
+	  let minutes = Math.floor(currentTimeInSeconds / 60);
+	  if(minutes < 10)
+		minutes = "0" + minutes;
+	  else if(minutes >= 60)
+		minutes = minutes % 60;
+
+	  let hours = Math.floor(currentTimeInSeconds / 3600 );
+	  if(hours < 10)
+		hours = "0" + hours;
+	  
+	  window.document.getElementById("time").innerText = (hours+" : "+minutes+" : "+seconds);
+	}
+
+	setInterval(updateClock, 1000);
+
+
 	this.reset = function(){
 		initialize();
 		self.hideWinScreen();
@@ -184,6 +209,7 @@ let CardGame = function() {
 	let initialize = function(){
 		numOfMoves = -1;
 		starRating = 5;
+		currentTimeInSeconds = 0;
 		let shuffledCardPositions = shuffle(cardPositions);
 		initArrayOfCards(shuffledCardPositions);
 		displayCards();

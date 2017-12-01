@@ -83,13 +83,13 @@ h1 {
 
 .score-panel {
     text-align: left;
-    width: 345px;
+    width: 660px;
     margin-bottom: 10px;
 }
 
 .score-panel .stars {
     margin: 0;
-    padding: 0;
+    padding: 0 125px 0 0;
     display: inline-block;
     margin: 0 5px 0 0;
 }
@@ -100,8 +100,13 @@ h1 {
 }
 
 .score-panel .restart {
-    float: right;
+    display: inline-block;
     cursor: pointer;
+    padding-left: 125px;
+}
+
+.time {
+    padding-left: 125px;
 }
 
 #overlay {
