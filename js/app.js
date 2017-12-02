@@ -95,24 +95,35 @@ let CardGame = function() {
 		}
 	};
 	
-	let clickCard = function() {
-		let cardItem = this;
-		cardItem.classList.add("show");
-		if(firstCard === null){
-			firstCard = cardItem;
-		} else {
-			secondCard = cardItem;
-			window.setTimeout(function(){
-				checkMatch(secondCard, firstCard);			
-			}, 500);
-			updateMoves();
-			//make every pair of clicks a move.
-		}
+    let clickCard = function() {
+        let cardItem = this;
 
-		updateRating();
-	};
+        /* There are 3 scenarios for clicCard.
+         * 1. no cards are clicked. In this case the first card clicked is stored as firstCard. 
+         * 2. 1 card is clicked. In this case the second card clicked is stored as secondCard. 
+         * 3. 2 cards are clicked. Don't store any cards because we're trying to match 2 cards at a time.
+         */
 
-		let checkMatch = function(currClickedCard, prevClickedCard) {
+        if(firstCard === null && secondCard === null) {
+            firstCard = cardItem;
+        } else if(firstCard !== null && secondCard === null) {
+            secondCard = cardItem;
+
+            window.setTimeout(function(){
+                checkMatch(secondCard, firstCard);            
+            }, 500);
+            updateMoves();
+            //make every pair of clicks a move.
+        } else {
+            return;
+        }
+
+        cardItem.classList.add("show");
+         
+        updateRating();
+    };
+
+	let checkMatch = function(currClickedCard, prevClickedCard) {
 		let cardClass = currClickedCard.children[0].className;
 		let prevCardClass = prevClickedCard.children[0].className;
 
