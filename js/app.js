@@ -82,7 +82,8 @@ let CardGame = function() {
 			let rowOfCards = arrayOfCards[i];
 			for(let j=0, len=rowOfCards.length; j < len; j++) {
 				let cssClass = rowOfCards[j].cardClass;
-				cardHTML += `<li class="card"><i class="${cssClass}"></i></li>`;
+				let cardId = "card_"+i+"_"+j;
+				cardHTML += `<li id="${cardId}" data-row="${i}" data-col="${j}" class="card"><i class="${cssClass}"></i></li>`;
 			}
 		}
 		let cardList = window.document.getElementById("cardList");
@@ -108,6 +109,10 @@ let CardGame = function() {
             firstCard = cardItem;
         } else if(firstCard !== null && secondCard === null) {
             secondCard = cardItem;
+ 			if (firstCard === secondCard) {
+ 				secondCard = null;
+        		return;
+ 			}
 
             window.setTimeout(function(){
                 checkMatch(secondCard, firstCard);            
