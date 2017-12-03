@@ -216,7 +216,6 @@ let CardGame = function() {
 
 	setInterval(updateClock, 1000);
 
-
 	this.reset = function(){
 		initialize();
 		self.hideWinScreen();
@@ -231,6 +230,8 @@ let CardGame = function() {
 		displayCards();
 		updateMoves();
 		updateRating();	
+		var restartButton = window.document.getElementById("restart-button");
+		restartButton.addEventListener("click", self.reset, false);
 	};
 	
 	initialize();
