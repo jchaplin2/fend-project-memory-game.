@@ -33,7 +33,7 @@ let CardGame = function() {
 	//second card selected.
 	let secondCard = null;
 	let numOfMoves = -1;
-	let starRating = 5;
+	let starRating = 3;
 
 	/*
 	 * Create a list that holds all of your cards
@@ -172,14 +172,10 @@ let CardGame = function() {
 	
 	let updateRating = function() {
 		if(numOfMoves <= 20)
-			starRating = 5;
-		else if((numOfMoves > 20) && (numOfMoves <= 30))
-			starRating = 4;
-		else if((numOfMoves > 30) && (numOfMoves <= 40))
 			starRating = 3;
-		else if((numOfMoves > 40) && (numOfMoves <= 50))
-			starRating = 2;			
-		else if((numOfMoves > 50) && (numOfMoves <= 60))
+		else if((numOfMoves > 20) && (numOfMoves <= 30))
+			starRating = 2;
+		else if((numOfMoves > 30) && (numOfMoves <= 40))
 			starRating = 1;
 		else
 			starRating = 0;
@@ -223,7 +219,7 @@ let CardGame = function() {
 	
 	let initialize = function(){
 		numOfMoves = -1;
-		starRating = 5;
+		starRating = 3;
 		currentTimeInSeconds = 0;
 		let shuffledCardPositions = shuffle(cardPositions);
 		initArrayOfCards(shuffledCardPositions);
