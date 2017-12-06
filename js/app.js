@@ -1,13 +1,22 @@
+/*
+ * Card class used to represent card on the screen.
+ * each card has a x position, y position and a css class.
+ */
+
 let Card = function(cssClass, x, y) {
 	this.cardClass = cssClass;
 	this.xPos = x;
 	this.yPos = y;
 };
 
+/*
+ * Class used to represent the card game.
+ */
+
 let CardGame = function() {
 	let self = this;
 	
-	//all possible card positions, 16 in all.
+	//all possible card positions 4 across, 4 down, 16 in all.
 	let cardPositions = [
 		[0,0], [0,1], [0,2], [0,3],
 		[1,0], [1,1], [1,2], [1,3],
@@ -27,19 +36,17 @@ let CardGame = function() {
 		"fa fa-bomb"
 	];
 	
-	//first card selected.
+	//first clicked card
 	let firstCard = null;
 	
-	//second card selected.
+	//second clicked card.
 	let secondCard = null;
-	let numOfMoves = -1;
-	let starRating = 3;
 
-	/*
-	 * Create a list that holds all of your cards
-	 */
-	
-	let arrayOfCards = new Array(new Array(), new Array(), new Array(), new Array());
+	//number of moves made in the game.
+	let numOfMoves = -1;
+
+	//game rating, declines based on the number of moves.
+	let starRating = 3;
 
 	/*
 	 * Display the cards on the page
@@ -63,6 +70,16 @@ let CardGame = function() {
 		return array;
 	};
 
+	/*
+	 * A list that holds all of the cards
+	 */
+	
+	let arrayOfCards = new Array(new Array(), new Array(), new Array(), new Array());
+
+	/*
+	 * This method initializes array of card objects represented on the screen.
+	 */
+
 	let initArrayOfCards = function(cardPositions) {
 		for(let i=0, len=listOfCardTypes.length; i<len; i++) {
 			let cardType = listOfCardTypes.pop();
@@ -75,6 +92,10 @@ let CardGame = function() {
 			}
 		}
 	};
+
+	/*
+	 * This method displays the cards on the screen.
+	 */
 	
 	let displayCards = function() {
 		let cardHTML = "";
@@ -99,7 +120,7 @@ let CardGame = function() {
     let clickCard = function() {
         let cardItem = this;
 
-        /* There are 3 scenarios for clicCard.
+        /* There are 3 scenarios for clickCard.
          * 1. no cards are clicked. In this case the first card clicked is stored as firstCard. 
          * 2. 1 card is clicked. In this case the second card clicked is stored as secondCard. 
          * 3. 2 cards are clicked. Don't store any cards because we're trying to match 2 cards at a time.
@@ -109,6 +130,8 @@ let CardGame = function() {
             firstCard = cardItem;
         } else if(firstCard !== null && secondCard === null) {
             secondCard = cardItem;
+
+            //clicking the same card twice should not count as a match.
  			if (firstCard === secondCard) {
  				secondCard = null;
         		return;
@@ -129,6 +152,10 @@ let CardGame = function() {
         if(currentTimeInSeconds === 0)
 			setInterval(updateClock, 1000);
     };
+
+	/*
+	 * This method checks if the cards match based on class name.
+	 */
 
 	let checkMatch = function(currClickedCard, prevClickedCard) {
 		let cardClass = currClickedCard.children[0].className;
@@ -191,6 +218,10 @@ let CardGame = function() {
 	};
 
 	let currentTimeInSeconds = 0;
+
+	/*
+	 * This method keeps time of how long it takes the player to complete the game.
+	 */
 
 	let updateClock = function() {
 	  currentTimeInSeconds++;
