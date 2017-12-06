@@ -126,6 +126,8 @@ let CardGame = function() {
         cardItem.classList.add("show");
          
         updateRating();
+        if(currentTimeInSeconds === 0)
+			setInterval(updateClock, 1000);
     };
 
 	let checkMatch = function(currClickedCard, prevClickedCard) {
@@ -208,9 +210,7 @@ let CardGame = function() {
 		hours = "0" + hours;
 	  
 	  window.document.getElementById("time").innerText = (hours+" : "+minutes+" : "+seconds);
-	}
-
-	setInterval(updateClock, 1000);
+	};
 
 	this.reset = function(){
 		initialize();
