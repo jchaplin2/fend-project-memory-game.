@@ -83,15 +83,18 @@ h1 {
 
 .score-panel {
     text-align: left;
-    width: 660px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
     margin-bottom: 10px;
+    padding: 0 120px 0px;
 }
 
 .score-panel .stars {
     margin: 0;
-    padding: 0 125px 0 0;
-    display: inline-block;
-    margin: 0 5px 0 0;
+    padding-left: 0;
+    text-align: center;
+    flex-basis: 25%;
 }
 
 .score-panel .stars li {
@@ -99,15 +102,12 @@ h1 {
     display: inline-block;
 }
 
-.score-panel .restart {
-    display: inline-block;
+.score-panel .restart, .score-panel .time , .score-panel .moves {
+    text-align: center;
     cursor: pointer;
-    padding-left: 125px;
+    flex-basis: 25%;
 }
 
-.time {
-    padding-left: 125px;
-}
 
 #overlay {
     position: fixed;
@@ -138,4 +138,82 @@ button.playAgainButton {
 	background-color: rgba(0, 185, 168, 1);
 	color:white;
 	border-radius:15px;
+}
+
+@media screen and (max-width: 349px){
+    .score-panel {
+        font-size: 12px;
+    }
+
+    .deck {
+        width: 250px;
+        min-height: 290px;
+        padding: 2px 4px 2px;
+    }
+
+    .deck .card {
+        width: 55px;
+        height: 55px;
+    }
+
+    .score-panel {
+        width: 285px;
+        padding: 0;
+    }
+
+    .deck .card.match, .deck .card.show {
+        font-size: 20px;
+    }
+}
+
+@media screen and (min-width: 350px) and (max-width: 519px){
+    .score-panel {
+        font-size: 12px;
+    }
+
+    .deck {
+        width: 340px;
+        min-height: 390px;
+        padding: 4px 8px 4px;
+    }
+
+    .deck .card {
+        width: 70px;
+        height: 70px;
+    }
+
+    .deck .card.match, .deck .card.show {
+        font-size: 20px;
+    }
+
+    .score-panel {
+        width: 350px;
+        padding: 0 10px 0px;
+    }
+}
+
+@media screen and (min-width: 520px) and (max-width: 699px) {
+    .deck{
+        width: 500px;
+        min-height: 570px;
+    }
+
+    .deck .card {
+        width: 100px;
+        height: 100px;
+    }
+
+    .score-panel {
+        width: 450px;
+        padding: 0 10px 0px;
+    }
+}
+
+@media screen (min-width: 700px) {
+    .container {
+        width: 100%;
+    }
+    .score-panel {
+        padding: 0 60px 0px;
+    }
 }

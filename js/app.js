@@ -196,7 +196,7 @@ let CardGame = function() {
 	let updateMoves = function() {
 		numOfMoves++;
 		let movesDisplay = window.document.getElementById("moves-counter");
-		movesDisplay.innerText = numOfMoves;	
+		movesDisplay.innerText = numOfMoves + " Moves";
 	};
 	
 	let updateRating = function() {
