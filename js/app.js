@@ -204,11 +204,9 @@ let CardGame = function() {
 			starRating = 3;
 		else if((numOfMoves > 20) && (numOfMoves <= 30))
 			starRating = 2;
-		else if((numOfMoves > 30) && (numOfMoves <= 40))
-			starRating = 1;
 		else
-			starRating = 0;
-			
+			starRating = 1;
+						
 		let ratingHTML = "";
 		for(let i=0; i<starRating; i++) {
 			ratingHTML += "<li><i class='fa fa-star'></i></li>";		
