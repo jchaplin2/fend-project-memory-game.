@@ -264,7 +264,24 @@ let CardGame = function() {
 	  window.document.getElementById("time").innerText = (hours+" : "+minutes+" : "+seconds);
 	};
 
-	this.reset = function() {
+	this.reset = function(){
+		cardPositions = [
+			[0,0], [0,1], [0,2], [0,3],
+			[1,0], [1,1], [1,2], [1,3],
+			[2,0], [2,1], [2,2], [2,3],
+			[3,0], [3,1], [3,2], [3,3],
+		];	
+		listOfCardTypes = [
+			"fa fa-diamond",
+			"fa fa-paper-plane-o",
+			"fa fa-anchor",
+			"fa fa-bolt",
+			"fa fa-cube",
+			"fa fa-leaf",
+			"fa fa-bicycle",
+			"fa fa-bomb"
+		];
+		arrayOfCards = new Array(new Array(), new Array(), new Array(), new Array());
 		initialize();
 		self.hideWinScreen();
 	};
