@@ -48,6 +48,25 @@ let CardGame = function() {
 	//game rating, declines based on the number of moves.
 	let starRating = 3;
 
+	let initializeCardArrays = function(){
+		cardPositions = [
+				[0,0], [0,1], [0,2], [0,3],
+				[1,0], [1,1], [1,2], [1,3],
+				[2,0], [2,1], [2,2], [2,3],
+				[3,0], [3,1], [3,2], [3,3],
+		];
+		listOfCardTypes = [
+				"fa fa-diamond",
+				"fa fa-paper-plane-o",
+				"fa fa-anchor",
+				"fa fa-bolt",
+				"fa fa-cube",
+				"fa fa-leaf",
+				"fa fa-bicycle",
+				"fa fa-bomb"
+		];
+	};
+
 	/*
 	 * Display the cards on the page
 	 *   - shuffle the list of cards using the provided "shuffle" method below
@@ -104,7 +123,8 @@ let CardGame = function() {
 			for(let j=0, len=rowOfCards.length; j < len; j++) {
 				let cssClass = rowOfCards[j].cardClass;
 				let cardId = "card_"+i+"_"+j;
-				cardHTML += `<li id="${cardId}" data-row="${i}" data-col="${j}" class="card"><i class="${cssClass}"></i></li>`;
+				cardHTML += `<li id="${cardId}" data-row="${i}" data-col="${j}" class="flip-container" style="" onclick="this.classList.toggle('flip');"><div class="flipper">
+<div class="front card"></div><div class="back card ${cssClass}" ></div></div></li>`;
 			}
 		}
 		let cardList = window.document.getElementById("cardList");
@@ -158,8 +178,8 @@ let CardGame = function() {
 	 */
 
 	let checkMatch = function(currClickedCard, prevClickedCard) {
-		let cardClass = currClickedCard.children[0].className;
-		let prevCardClass = prevClickedCard.children[0].className;
+		let cardClass = currClickedCard.children[0].children[1].classList.toString();
+		let prevCardClass = prevClickedCard.children[0].children[1].classList.toString();
 
 		prevClickedCard.classList.remove("show");
 		currClickedCard.classList.remove("show");		
@@ -167,6 +187,9 @@ let CardGame = function() {
 		if(cardClass === prevCardClass) {
 			prevClickedCard.classList.add("match");
 			currClickedCard.classList.add("match");
+		} else {
+			prevClickedCard.classList.remove("flip");
+			currClickedCard.classList.remove("flip");			
 		}
 
 		checkForWin();
@@ -206,7 +229,7 @@ let CardGame = function() {
 			starRating = 2;
 		else
 			starRating = 1;
-						
+
 		let ratingHTML = "";
 		for(let i=0; i<starRating; i++) {
 			ratingHTML += "<li><i class='fa fa-star'></i></li>";		
@@ -241,15 +264,16 @@ let CardGame = function() {
 	  window.document.getElementById("time").innerText = (hours+" : "+minutes+" : "+seconds);
 	};
 
-	this.reset = function(){
+	this.reset = function() {
 		initialize();
 		self.hideWinScreen();
 	};
 	
-	let initialize = function(){
+	let initialize = function() {
 		numOfMoves = -1;
 		starRating = 3;
 		currentTimeInSeconds = 0;
+		initializeCardArrays();
 		let shuffledCardPositions = shuffle(cardPositions);
 		initArrayOfCards(shuffledCardPositions);
 		displayCards();
