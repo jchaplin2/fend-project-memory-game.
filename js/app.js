@@ -48,6 +48,9 @@ let CardGame = function() {
 	//game rating, declines based on the number of moves.
 	let starRating = 3;
 
+	//overlay that disables clicks
+	let overlay = window.document.getElementById("overlay");
+
 	let initializeCardArrays = function(){
 		cardPositions = [
 				[0,0], [0,1], [0,2], [0,3],
@@ -123,7 +126,7 @@ let CardGame = function() {
 			for(let j=0, len=rowOfCards.length; j < len; j++) {
 				let cssClass = rowOfCards[j].cardClass;
 				let cardId = "card_"+i+"_"+j;
-				cardHTML += `<li id="${cardId}" data-row="${i}" data-col="${j}" class="flip-container" style="" onclick="this.classList.toggle('flip');"><div class="flipper">
+				cardHTML += `<li id="${cardId}" data-row="${i}" data-col="${j}" class="flip-container" style="" onclick="this.classList.add('flip');"><div class="flipper">
 <div class="front card"></div><div class="back card ${cssClass}" ></div></div></li>`;
 			}
 		}
@@ -157,7 +160,10 @@ let CardGame = function() {
         		return;
  			}
 
-            window.setTimeout(function(){
+ 			//display overlay to prevent user from clicking on more than 2 cards.
+ 			overlay.style.display = "block";
+
+            window.setTimeout(function() {
                 checkMatch(secondCard, firstCard);            
             }, 500);
             updateMoves();
@@ -185,17 +191,44 @@ let CardGame = function() {
 		currClickedCard.classList.remove("show");		
 		
 		if(cardClass === prevCardClass) {
-			prevClickedCard.classList.add("match");
-			currClickedCard.classList.add("match");
+			handleMatchedClasses(prevClickedCard, currClickedCard);
 		} else {
-			prevClickedCard.classList.remove("flip");
-			currClickedCard.classList.remove("flip");			
+			handleUnmatchedClasses(prevClickedCard, currClickedCard);
 		}
 
 		checkForWin();
 		
 		firstCard = null;
 		secondCard = null;
+	};
+
+	let  handleMatchedClasses = function(firstMatchedCard, secondMatchedCard) {
+			firstMatchedCard.classList.add("rubberband", "animated", "match");
+			secondMatchedCard.classList.add("rubberband", "animated", "match");
+			window.setTimeout(function() {
+				firstMatchedCard.classList.remove("rubberband", "animated");
+				secondMatchedCard.classList.remove("rubberband", "animated");
+				overlay.style.display = "none";
+			}, 1000);
+	};
+
+	let  handleUnmatchedClasses = function(firstMatchedCard, secondMatchedCard) {
+			var cardChild1 = firstMatchedCard.children[0].children[1];
+			var cardChild2 = secondMatchedCard.children[0].children[1];			
+			firstMatchedCard.classList.add("wobble", "animated");
+			secondMatchedCard.classList.add("wobble", "animated");
+			cardChild1.classList.add("failed-match");
+			cardChild2.classList.add("failed-match");
+			firstMatchedCard.classList.remove("flip");
+			secondMatchedCard.classList.remove("flip");
+			window.setTimeout(function() {
+				firstMatchedCard.classList.remove("wobble", "animated", "failed-match");
+				secondMatchedCard.classList.remove("wobble", "animated", "failed-match");
+				cardChild1.classList.remove("failed-match");
+				cardChild2.classList.remove("failed-match");
+				overlay.style.display = "none";
+			}, 1000);
+
 	};
 	
 	let checkForWin = function() {
@@ -205,14 +238,14 @@ let CardGame = function() {
 	};
 	
 	let displayWinScreen = function(){
-		let victoryScreen = window.document.getElementById("overlay");
+		let victoryScreen = window.document.getElementById("win-screen");
 		victoryScreen.style.display = "block";
 		let victoryTemplate = `<h1 class="winnerHeader"> Congratulations! You Won! </h1> <div class="winnerMessage">With ${numOfMoves} moves and ${starRating} stars Woohoo! </div> <button class="playAgainButton" onClick="cardGm.reset()"> Play again! </button>`;
 		victoryScreen.innerHTML = victoryTemplate;	
 	};
 	
 	this.hideWinScreen = function(){
-		let victoryScreen = window.document.getElementById("overlay");
+		let victoryScreen = window.document.getElementById("win-screen");
 		victoryScreen.style.display = "none";	
 	};
 	

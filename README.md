@@ -12,6 +12,8 @@ A responsive memory game where the user is presented 16 cards (8 pairs of 2) and
 
 ## Resources:
 * Font Awesome: [http://fontawesome.io/](http://fontawesome.io/)
+* Card Flip: [https://davidwalsh.name/css-flip]
+* Animation CSS: [https://daneden.github.io/animate.css/]
 
 ## How to Play & Rules
 * A user must select 2 cards at a time.
