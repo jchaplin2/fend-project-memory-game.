@@ -204,7 +204,7 @@ ul {
     list-style-type: none;
 }
 
-@media screen and (max-width: 349px){
+@media screen and (max-width: 350px){
     .score-panel {
         font-size: 12px;
     }
@@ -215,9 +215,13 @@ ul {
         padding: 2px 4px 2px;
     }
 
-    .deck .card {
+    .deck .card, .flip-container {
         width: 55px;
         height: 55px;
+    }
+    
+    .deck .card.back {
+        font-size:20px;
     }
 
     .score-panel {
@@ -225,7 +229,7 @@ ul {
         padding: 0;
     }
 
-    .deck .card.match, .deck .card.show {
+    .deck .card.match, .deck .card.show, .deck .card.back, .deck div.card.failed-match {
         font-size: 20px;
     }
 }
@@ -241,12 +245,12 @@ ul {
         padding: 4px 8px 4px;
     }
 
-    .deck .card {
+    .deck .card, .flip-container {
         width: 70px;
         height: 70px;
     }
 
-    .deck .card.match, .deck .card.show {
+    .deck .card.match, .deck .card.show, .deck .card.back, .deck div.card.failed-match {
         font-size: 20px;
     }
 
@@ -262,7 +266,7 @@ ul {
         min-height: 570px;
     }
 
-    .deck .card {
+    .deck .card, .flip-container {
         width: 100px;
         height: 100px;
     }
